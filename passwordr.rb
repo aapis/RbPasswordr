@@ -6,35 +6,21 @@ class Passwordr
 	def initialize(_base, _length)
 		@base = _base;
 		@length = _length;
-		@password = self.make_hash();
-
-		self.confusitizer();
-	end
-
-	def make_hash()
-		_data = @base + Time.now.to_i.to_s;
-		_hash = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new("sha256"), @base, _data)).strip();
 		
-		_hash[1..@length]
+		print generate + "\n"
 	end
 
-	def randomizer()
-
-	end
-
-	def get_specials()
-
-	end
-
-	def rediscombobulator()
-
-	end
-
-	def get_random_from_pos()
-
-	end
-
-	def confusitizer()
+	def generate()
+		letters = ("a".."z")
+		numbers = ("0".."9")
+		symbols = ["=", "+", ")", "(", "*", "&", "^", "%", "#", "@", "~"]
 		
+		output = letters.to_a.shuffle[0..@length].join + symbols.shuffle[0..0].join
+
+		
+		output.crypt("$1$" + output)
+
+		elements = output.split(//)
+		elements[0..@length-1].join
 	end
 end
